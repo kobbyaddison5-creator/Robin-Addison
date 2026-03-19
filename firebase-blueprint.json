@@ -1,0 +1,90 @@
+{
+  "entities": {
+    "Member": {
+      "title": "Member",
+      "description": "A church member record",
+      "type": "object",
+      "properties": {
+        "memberId": { "type": "string", "description": "Unique church ID" },
+        "fullName": { "type": "string" },
+        "gender": { "type": "string", "enum": ["Male", "Female"] },
+        "dateOfBirth": { "type": "string", "format": "date" },
+        "phoneNumber": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "homeAddress": { "type": "string" },
+        "occupation": { "type": "string" },
+        "maritalStatus": { "type": "string", "enum": ["Single", "Married", "Widowed", "Divorced"] },
+        "baptismStatus": { "type": "boolean" },
+        "confirmationStatus": { "type": "boolean" },
+        "dateJoined": { "type": "string", "format": "date" },
+        "category": { "type": "string", "enum": ["Full Member", "Communicant", "Catechumen", "Adherant", "Junior Member"] },
+        "groups": { "type": "array", "items": { "type": "string" } },
+        "classes": { "type": "array", "items": { "type": "string" } },
+        "emergencyContact": { "type": "string" },
+        "photoUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["memberId", "fullName", "gender", "category", "createdAt"]
+    },
+    "ChurchClass": {
+      "title": "ChurchClass",
+      "description": "A spiritual class or ministry group",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["Traditional", "Ministry/Fellowship"] },
+        "leaderId": { "type": "string" },
+        "description": { "type": "string" }
+      },
+      "required": ["name", "type"]
+    },
+    "AttendanceRecord": {
+      "title": "AttendanceRecord",
+      "description": "A record of attendance for a service or meeting",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "format": "date" },
+        "memberId": { "type": "string" },
+        "classId": { "type": "string" },
+        "status": { "type": "string", "enum": ["Present", "Absent"] },
+        "serviceType": { "type": "string" },
+        "recordedBy": { "type": "string" }
+      },
+      "required": ["date", "memberId", "status", "serviceType", "recordedBy"]
+    },
+    "WelfareRecord": {
+      "title": "WelfareRecord",
+      "description": "A record of welfare support",
+      "type": "object",
+      "properties": {
+        "memberId": { "type": "string" },
+        "type": { "type": "string" },
+        "description": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "status": { "type": "string", "enum": ["Pending", "Approved", "Completed"] },
+        "amount": { "type": "number" }
+      },
+      "required": ["memberId", "type", "date", "status"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "A user's system profile",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["Admin", "Leader", "Member"] },
+        "memberId": { "type": "string" }
+      },
+      "required": ["uid", "email", "role"]
+    }
+  },
+  "firestore": {
+    "/members": { "schema": "Member", "description": "Church members collection" },
+    "/classes": { "schema": "ChurchClass", "description": "Church classes collection" },
+    "/attendance": { "schema": "AttendanceRecord", "description": "Attendance records" },
+    "/welfare": { "schema": "WelfareRecord", "description": "Welfare records" },
+    "/users": { "schema": "UserProfile", "description": "System users" },
+    "/metadata": { "schema": { "type": "object", "properties": { "count": { "type": "integer" } } }, "description": "System metadata and counters" }
+  }
+}
